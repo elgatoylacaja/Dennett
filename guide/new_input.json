@@ -1,0 +1,46 @@
+{
+    "AUID": "606809a507a5cd00", 
+    "erase": 0, 
+    "gameType": "arcade", 
+    "hints": {
+        "hideQuestion": 0, 
+        "hintsShown": 0,
+        "hintsAvailable": 3
+    },
+    "operation": {
+        "level": 1, 
+        "operand1": 7, 
+        "operand2": 5, 
+        "operator": "x", 
+        "result": 35, 
+        "type": "1dx1d", 
+    },
+    "response": [
+        3, 
+        5, 
+        20
+    ], 
+    "stats": {
+        "initialConfidence": -1, 
+        "initialEffort": -1, 
+        "confidenceAnswer": -1, 
+        "correctInARow": 1, 
+        "correct": 1, 
+        "effortAnswer": -1, 
+        "endDate": 2012-04-23T18:25:43.511Z,
+        "startDate": 2012-04-23T18:25:43.511Z,
+        "score": 1000, 
+        "sessionCorrect": 1, 
+        "sessionTrial": 1
+    },
+    "time" : {
+        "max": 20000, 
+        "exceeded": 0, 
+        "total": 3352,
+        "responseTimes": [
+            2715, 
+            3057, 
+            3352
+        ]
+    }
+}
