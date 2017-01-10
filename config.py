@@ -1,14 +1,16 @@
 class ProductionConfig():
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DEBUG = False
-    DATABASE_URI = ''
+    SQLALCHEMY_DATABASE_URI = 'postgres://admin:admin@localhost/moravec'
+
 
 class DevelopmentConfig():
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DEBUG = True
-    DATABASE_URI = 'postgres://admin:admin@localhost/moravec'
+    SQLALCHEMY_DATABASE_URI = 'postgres://admin:admin@localhost/moravec'
+
 
 class TestingConfig():
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DEBUG = True
-    DATABASE_URI = 'postgres://admin:admin@localhost/moravec'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:////tmp/moravec.db'

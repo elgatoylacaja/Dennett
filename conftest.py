@@ -5,17 +5,16 @@ from database import db
 
 @pytest.fixture(scope='session')
 def app():
-    yield create_app('config.TestingConfig')
+    _app = create_app('config.TestingConfig')
+    with _app.app_context():
+        yield _app
  
 
 @pytest.fixture(scope='function')
 def session(app):
-    ctx = app.app_context()
-    ctx.push()
-    db.session.begin_nested()
+    db.create_all()
     yield 
-    db.session.rollback()
-    ctx.pop()
+    db.drop_all()
 
 
-URL_PREFIX = 'http://localhost:5000/api/v1/'
+URL_PREFIX = 'http://localhost:5000/'

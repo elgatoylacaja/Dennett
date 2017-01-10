@@ -1,13 +1,16 @@
 from flask import Flask
 from database import db
 
+
 from app.trials.api import trials
+from app.trials_legacy.api import trials_legacy
 
 
 def register_blueprints(app):
     BLUEPRINTS = [trials]
     for blueprint in BLUEPRINTS:
-        app.register_blueprint(blueprint, url_prefix='/api/v1')
+        app.register_blueprint(blueprint, url_prefix='/v2')
+    app.register_blueprint(trials_legacy, url_prefix='/v1')
 
 
 def create_app(config_object):
