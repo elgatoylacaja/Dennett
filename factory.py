@@ -1,11 +1,12 @@
 from flask import Flask
 from database import db, mongo
 
-from app.trials.api import trials_blueprint
+from app.trials.v1.api import trials as trials_v1
+from app.trials.v2.api import trials as trials_v2
 
 
 def register_blueprints(app):
-    BLUEPRINTS = [trials_blueprint]
+    BLUEPRINTS = [trials_v1, trials_v2]
     for blueprint in BLUEPRINTS:
         app.register_blueprint(blueprint, url_prefix='/api/')
 
