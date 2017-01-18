@@ -1,6 +1,6 @@
 import pytest
 from factory import create_app
-from database import db
+from database import db, mongo
 
 
 @pytest.fixture(scope='session')
@@ -15,6 +15,7 @@ def session(app):
     db.create_all()
     yield 
     db.drop_all()
+    mongo.db.drop_collection('trials')
 
 
-URL_PREFIX = 'http://localhost:5000/'
+URL_PREFIX = 'http://localhost:5000/api/'

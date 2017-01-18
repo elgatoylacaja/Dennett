@@ -1,6 +1,7 @@
-from database import db
+from database import db, mongo
 from flask import jsonify
-from flask import json
+from bson.json_util import dumps
+import datetime
 
 
 class Trial(db.Model):
@@ -12,6 +13,17 @@ class Trial(db.Model):
     def __init__(self, data):
         self.user = data.get('user')
         self.op_type = data.get('op_type')
+
+    @classmethod
+    def get_mongolab(self):
+        trials = mongo.db.trials.find()
+        return dumps(trials)
+
+    @classmethod
+    def post_mongolab(self, trial):
+        trial['postDate'] = datetime.datetime.utcnow()
+        mongo.db.trials.insert(trial)
+        return dumps(trial)
 
     @classmethod
     def get(self, request_filters):
