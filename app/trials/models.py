@@ -1,6 +1,7 @@
 from database import db, mongo
 from flask import jsonify
 from bson.json_util import dumps
+from bson.objectid import ObjectId
 import datetime
 
 
@@ -15,15 +16,26 @@ class Trial(db.Model):
         self.op_type = data.get('op_type')
 
     @classmethod
-    def get_mongolab(self):
+    def get_mongolab_all(self):
         trials = mongo.db.trials.find()
         return dumps(trials)
+
+    @classmethod
+    def get_mongolab(self, id):
+        trial = mongo.db.trials.find_one({'_id': ObjectId(id)})
+        if trial:
+            return dumps(trial)
+        return trial
 
     @classmethod
     def post_mongolab(self, trial):
         trial['postDate'] = datetime.datetime.utcnow()
         mongo.db.trials.insert(trial)
         return dumps(trial)
+
+    @classmethod
+    def delete_mongolab(self, id):
+        mongo.db.trials.delete_one({'_id': ObjectId(id)})
 
     @classmethod
     def get(self, request_filters):

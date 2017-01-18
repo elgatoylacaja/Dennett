@@ -18,7 +18,7 @@ def test_post_trial(session):
     assert r.status_code == 201
 
 
-def test_post_and_get_trials_list(session):
+def test_get_trials_list(session):
     trials = [
         {'user': '0001', 'op_type': '3x1'},
         {'user': '0002', 'op_type': '3x2'},
@@ -28,3 +28,25 @@ def test_post_and_get_trials_list(session):
         requests.post(URL_PREFIX + 'v1/trials', json=trial)
     data = requests.get(URL_PREFIX + 'v1/trials').json()
     assert len(data) == 3
+
+
+def test_get_trial(session):
+    trial = {
+        'user': '0001',
+        'op_type': '3x2'
+    }
+    data = requests.post(URL_PREFIX + 'v1/trials', json=trial).json()
+    r = requests.get(URL_PREFIX + 'v1/trials/' + data['_id']['$oid'])
+    assert r.status_code == 200
+
+
+def test_delete_trial(session):
+    trial = {
+        'user': '0001',
+        'op_type': '3x2'
+    }
+    data = requests.post(URL_PREFIX + 'v1/trials', json=trial).json()
+    r = requests.delete(URL_PREFIX + 'v1/trials/' + data['_id']['$oid'])
+    assert r.status_code == 204
+    r = requests.get(URL_PREFIX + 'v1/trials/' + data['_id']['$oid'])
+    assert r.status_code == 404
