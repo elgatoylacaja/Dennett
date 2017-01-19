@@ -1,5 +1,5 @@
 import pytest
-from app import create_app
+from factory import create_app
 from database import db, mongo
 
 
@@ -18,4 +18,4 @@ def session(app):
     mongo.db.drop_collection('trials')
 
 
-URL_PREFIX = 'http://localhost:8000/api/'
+URL_PREFIX = 'http://localhost:5000/api/'
