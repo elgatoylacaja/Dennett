@@ -2,13 +2,6 @@ import requests
 from conftest import session, URL_PREFIX
 
 
-def test_get_empty_trials_list(session):
-    r = requests.get(URL_PREFIX + 'v1/trials')
-    data = r.json()
-    assert r.status_code == 200
-    assert len(data) == 0
-
-
 def test_post_trial(session):
     trial = {
         'user': '0001',
@@ -16,6 +9,13 @@ def test_post_trial(session):
     }
     r = requests.post(URL_PREFIX + 'v1/trials', json=trial)
     assert r.status_code == 201
+
+
+def test_get_empty_trials_list(session):
+    r = requests.get(URL_PREFIX + 'v1/trials')
+    data = r.json()
+    assert r.status_code == 200
+    assert len(data) == 0
 
 
 def test_get_trials_list(session):
@@ -36,7 +36,7 @@ def test_get_trial(session):
         'op_type': '3x2'
     }
     data = requests.post(URL_PREFIX + 'v1/trials', json=trial).json()
-    r = requests.get(URL_PREFIX + 'v1/trials/' + data['_id']['$oid'])
+    r = requests.get(URL_PREFIX + 'v1/trials/' + data['$oid'])
     assert r.status_code == 200
 
 
@@ -46,7 +46,7 @@ def test_delete_trial(session):
         'op_type': '3x2'
     }
     data = requests.post(URL_PREFIX + 'v1/trials', json=trial).json()
-    r = requests.delete(URL_PREFIX + 'v1/trials/' + data['_id']['$oid'])
+    r = requests.delete(URL_PREFIX + 'v1/trials/' + data['$oid'])
     assert r.status_code == 204
-    r = requests.get(URL_PREFIX + 'v1/trials/' + data['_id']['$oid'])
+    r = requests.get(URL_PREFIX + 'v1/trials/' + data['$oid'])
     assert r.status_code == 404
