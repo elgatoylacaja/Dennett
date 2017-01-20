@@ -2,6 +2,7 @@ from flask import request
 from models import Trial
 from flask import Blueprint
 from werkzeug.exceptions import HTTPException
+import tasks
 
 
 
@@ -43,3 +44,12 @@ def trials_detail(id):
             return id, 204 
         except HTTPException as e:
             return e
+
+
+
+@trials.route('v1/backup', methods=['GET'])
+def trials_backup():
+    file_resource = tasks.backup()
+    if file_resource:
+        return 'Success', 200
+    return 'Unable to create backup', 500
