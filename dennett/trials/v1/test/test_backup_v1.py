@@ -2,7 +2,6 @@ import requests
 from database import mongo
 from conftest import session, URL_PREFIX
 from dennett.trials.v1.models import Trial
-from dennett.trials.v1.tasks import send_mail
 
 
 TRIALS = [

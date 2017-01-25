@@ -40,6 +40,11 @@ def test_get_trial(session):
     assert r.status_code == 200
 
 
+def test_get_unexisting_trial(session):
+    r = requests.get(URL_PREFIX + 'v1/trials/012345678901234567891234')
+    assert r.status_code == 404
+
+
 def test_delete_trial(session):
     trial = {
         'user': '0001',

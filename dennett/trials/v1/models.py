@@ -1,8 +1,6 @@
 from database import mongo
 from bson import BSON, decode_all
-from bson.json_util import dumps
 from bson.objectid import ObjectId
-from werkzeug.exceptions import InternalServerError, NotFound
 import datetime
 
 
@@ -11,29 +9,22 @@ class Trial():
 
     @classmethod
     def get_all(self):
-        trials = mongo.db.trials.find()
-        return dumps(trials)
+        return mongo.db.trials.find()
 
     @classmethod
     def get(self, id):
-        trial = mongo.db.trials.find_one({'_id': ObjectId(id)})
-        if trial:
-            return dumps(trial)
-        else:
-            raise NotFound
+        return mongo.db.trials.find_one({'_id': ObjectId(id)})
 
     @classmethod
     def post(self, trial):
         trial['postDate'] = datetime.datetime.utcnow()
         result = mongo.db.trials.insert_one(trial)
-        if result.acknowledged:
-            return dumps(result.inserted_id)
-        else:
-            raise InternalServerError
+        inserted_trial = Trial.get(result.inserted_id)
+        return result.inserted_id if inserted_trial else None
 
     @classmethod
     def delete(self, id):
-        mongo.db.trials.delete_one({'_id': ObjectId(id)})
+        return mongo.db.trials.delete_one({'_id': ObjectId(id)})
 
     @classmethod
     def export_to(self, file_name, n):

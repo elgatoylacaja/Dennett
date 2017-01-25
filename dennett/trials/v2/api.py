@@ -1,11 +1,6 @@
 from flask import request
 from models import Trial
-from flask import Blueprint
-
-
-
-trials = Blueprint('trials_v2', __name__)
-
+from . import trials
 
 
 @trials.route('v2/trials', methods=['GET', 'POST'])
