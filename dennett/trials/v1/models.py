@@ -38,3 +38,10 @@ class Trial():
         with open(file_name, 'rb') as f:
             trials = decode_all(f.read())
             mongo.db.trials.insert(trials)
+
+    @classmethod
+    def stats(self):
+        trials_count = mongo.db.trials.count()
+        return { 
+            'trials': trials_count
+        }
