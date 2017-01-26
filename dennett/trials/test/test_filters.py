@@ -19,12 +19,36 @@ TRIALS = [
 
 
 def test_pagination(session):
-    page_size = 3
-    page = 2
     for trial in TRIALS:
         requests.post(URL_PREFIX + 'v1/trials', json=trial)
-    url = URL_PREFIX + 'v1/trials?page-size={}&page={}'.format(page_size, page)
-    data = requests.get(url).json()
-    stored_ids = set(trial['id'] for trial in data)
-    original_ids = set(trial['id'] for trial in TRIALS[page*page_size:(page+1)*page_size]) 
-    assert stored_ids == original_ids
+    data = requests.get(URL_PREFIX + 'v1/trials?size=2&page=2').json()
+    assert len(data) == 2 
+    assert data[0]['id'] == '3'
+    assert data[1]['id'] == '4'
+
+
+def test_cron_and_pagination(session):
+    for trial in TRIALS:
+        requests.post(URL_PREFIX + 'v1/trials', json=trial)
+    data = requests.get(URL_PREFIX + 'v1/trials?cron=new&size=2&page=2').json()
+    assert len(data) == 2 
+    assert data[0]['id'] == '10'
+    assert data[1]['id'] == '9'
+
+
+def test_cron_old(session):
+    for trial in TRIALS:
+        requests.post(URL_PREFIX + 'v1/trials', json=trial)
+    data = requests.get(URL_PREFIX + 'v1/trials').json()
+    assert data[0]['id'] == '1'
+    assert data[1]['id'] == '2'
+    assert data[2]['id'] == '3'
+
+
+def test_cron_new(session):
+    for trial in TRIALS:
+        requests.post(URL_PREFIX + 'v1/trials', json=trial)
+    data = requests.get(URL_PREFIX + 'v1/trials?cron=new').json()
+    assert data[0]['id'] == '12'
+    assert data[1]['id'] == '11'
+    assert data[2]['id'] == '10'
