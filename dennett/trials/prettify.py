@@ -1,4 +1,20 @@
 import ast
+import datetime
+
+def gender_pretty(gender):
+    return gender
+
+def hand_pretty(hand):
+    return hand
+
+def studies_pretty(studies):
+    return studies
+
+def birthdate_pretty(birthdate):
+    return datetime.date(*birthdate).isoformat() if birthdate else ''
+
+def time_pretty(time):
+    return datetime.datetime(*time).isoformat() if time else ''
 
 
 def prettify(legacy_trial):
@@ -7,10 +23,10 @@ def prettify(legacy_trial):
         'user': {
             'auid': trial['PersonalData']['AUID'],
             'name': trial['PersonalData']['Name'],
-            'gender': trial['PersonalData']['Gender'],
-            'hand': trial['PersonalData']['Hand'],
-            'studies': trial['PersonalData']['Studies'],
-            'birthdate': trial['PersonalData']['Birthdate']
+            'gender': gender_pretty(trial['PersonalData']['Gender']),
+            'hand': hand_pretty(trial['PersonalData']['Hand']),
+            'studies': hand_pretty(trial['PersonalData']['Studies']),
+            'birthdate': birthdate_pretty(trial['PersonalData']['Birthdate'])
         },
         'operation': {
             'level': trial['Level'],
@@ -31,8 +47,8 @@ def prettify(legacy_trial):
             'max': trial['Max_Time'],
             'exceeded': trial['Time_Exceeded'],
             'total': trial['Total_Time'],
-            'start': trial['Start_Date'],
-            'end': trial['End_Date']
+            'start': time_pretty(trial['Start_Date']),
+            'end': time_pretty(trial['End_Date'])
         },
         'hints': {
             'shown': trial['Hint_Shown'],
