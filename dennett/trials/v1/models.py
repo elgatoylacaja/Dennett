@@ -27,17 +27,25 @@ class Trial():
         return mongo.db.trials.delete_one({'_id': ObjectId(id)})
 
     @classmethod
-    def export_to(self, file_name, n):
-        trials = mongo.db.trials.find().sort([("_id", 1)]).limit(n)
-        with open(file_name, 'w') as f:
-            for trial in trials:
-                f.write(BSON.encode(trial))
+    def export_trials(self, n):
+        trials = mongo.db.trials.find().sort([('_id', 1)]).limit(n)
+        max_id = trials[n]['_id'] 
+        date = datetime.datetime.utcnow().isoformat()
+        filename = 'backup_{}'.format(date)
+        with open(filename, 'w') as f:
+            [f.write(BSON.encode(trial)) for trial in trials]
+        mongo.db.trials.update({'_id': {'$lt': max_id}}, {'$set': {'exported': True}}, multi=True)
+        return filename
 
     @classmethod
-    def import_from(self, file_name):
-        with open(file_name, 'rb') as f:
+    def import_trials(self, filename):
+        with open(filename, 'rb') as f:
             trials = decode_all(f.read())
             mongo.db.trials.insert(trials)
+
+    @classmethod
+    def delete_exported_trials(self):
+        mongo.db.trials.remove({'exported': {'$eq': True}})
 
     @classmethod
     def stats(self):

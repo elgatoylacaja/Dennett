@@ -5,33 +5,37 @@ from dennett.trials.v1.models import Trial
 
 
 TRIALS = [
-    {'order': '1', 'user': '0001', 'op_type': '3x1'},
-    {'order': '2', 'user': '0002', 'op_type': '3x2'},
-    {'order': '3', 'user': '0003', 'op_type': '3x3'},
-    {'order': '4', 'user': '0001', 'op_type': '3x4'},
-    {'order': '5', 'user': '0002', 'op_type': '3x5'},
-    {'order': '6', 'user': '0001', 'op_type': '3x1'},
-    {'order': '7', 'user': '0002', 'op_type': '4x2'},
-    {'order': '8', 'user': '0003', 'op_type': '4x3'},
-    {'order': '9', 'user': '0001', 'op_type': '4x4'},
-    {'order': '10', 'user': '0002', 'op_type': '4x5'},
-    {'order': '11', 'user': '0003', 'op_type': '4x6'},
-    {'order': '12', 'user': '0003', 'op_type': '4x6'}
+    {'id': '1', 'user': '0001', 'op_type': '3x1'},
+    {'id': '2', 'user': '0002', 'op_type': '3x2'},
+    {'id': '3', 'user': '0003', 'op_type': '3x3'},
+    {'id': '4', 'user': '0001', 'op_type': '3x4'},
+    {'id': '5', 'user': '0002', 'op_type': '3x5'},
+    {'id': '6', 'user': '0001', 'op_type': '3x1'},
+    {'id': '7', 'user': '0002', 'op_type': '4x2'},
+    {'id': '8', 'user': '0003', 'op_type': '4x3'},
+    {'id': '9', 'user': '0001', 'op_type': '4x4'},
+    {'id': '10', 'user': '0002', 'op_type': '4x5'},
+    {'id': '11', 'user': '0003', 'op_type': '4x6'},
+    {'id': '12', 'user': '0003', 'op_type': '4x6'}
 ]
 
 
-def test_backup(session):
-
-    for trial in TRIALS: 
+def test_delete_trials(session):
+    for trial in TRIALS:
         requests.post(URL_PREFIX + 'v1/trials', json=trial)
+    filename = Trial.export_trials(2)
+    Trial.delete_exported_trials()
     data = requests.get(URL_PREFIX + 'v1/trials').json()
-    assert len(data) == 12
+    assert len(data) == 10
 
-    Trial.export_to('5_oldest', 5)
-    mongo.db.drop_collection('trials')
-    data = requests.get(URL_PREFIX + 'v1/trials').json()
-    assert len(data) == 0
 
-    Trial.import_from('5_oldest')
+def test_delete_and_restore_backup(session):
+    for trial in TRIALS:
+        requests.post(URL_PREFIX + 'v1/trials', json=trial)
+    filename = Trial.export_trials(2)
+    Trial.delete_exported_trials()
+    Trial.import_trials(filename)
     data = requests.get(URL_PREFIX + 'v1/trials').json()
-    assert len(data) == 5
+    stored_ids = set(trial['id'] for trial in data)
+    original_ids = set(trial['id'] for trial in TRIALS) 
+    assert stored_ids == original_ids
