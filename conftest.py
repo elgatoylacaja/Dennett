@@ -1,6 +1,6 @@
 import pytest
 from factory import create_app
-from database import db, mongo
+from database import mongo
 import os, re
 
 
@@ -19,9 +19,9 @@ def app():
 
 @pytest.fixture(scope='function')
 def session(app):
-    db.create_all()
+    mongo.db.drop_collection('trials')
+    remove_test_backup_files()
     yield 
-    db.drop_all()
     mongo.db.drop_collection('trials')
     remove_test_backup_files()
 
