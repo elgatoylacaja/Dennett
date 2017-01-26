@@ -1,7 +1,5 @@
 import requests
-from database import mongo
 from conftest import session, URL_PREFIX
-from dennett.trials.v1.models import Trial
 
 
 TRIALS = [
@@ -20,19 +18,7 @@ TRIALS = [
 ]
 
 
-
-def test_page_0(session):
-    page_size = 5
-    for trial in TRIALS:
-        requests.post(URL_PREFIX + 'v1/trials', json=trial)
-    url = URL_PREFIX + 'v1/trials?page-size={}'.format(page_size)
-    data = requests.get(url).json()
-    stored_ids = set(trial['id'] for trial in data)
-    original_ids = set(trial['id'] for trial in TRIALS[:page_size]) 
-    assert stored_ids == original_ids
-
-
-def test_page_1(session):
+def test_pagination(session):
     page_size = 3
     page = 2
     for trial in TRIALS:

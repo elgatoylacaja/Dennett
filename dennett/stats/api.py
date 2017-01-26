@@ -1,4 +1,4 @@
-from dennett.trials.v1.models import Trial
+from dennett.trials.models import Trial
 from bson.json_util import dumps
 from . import stats
 
