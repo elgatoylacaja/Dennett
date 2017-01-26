@@ -55,3 +55,4 @@ def test_delete_trial(session):
     assert r.status_code == 204
     r = requests.get(URL_PREFIX + 'v1/trials/' + data['$oid'])
     assert r.status_code == 404
+

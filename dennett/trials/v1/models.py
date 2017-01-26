@@ -8,8 +8,12 @@ import datetime
 class Trial():
 
     @classmethod
-    def get_all(self):
-        return mongo.db.trials.find()
+    def get_many(self, filters):
+        page = int(filters.get('page', 0))
+        page_size = int(filters.get('page-size', 1000))
+        trials = mongo.db.trials.find().sort([('_id', 1)])
+        trials.skip(page * page_size).limit(page_size)
+        return trials
 
     @classmethod
     def get(self, id):

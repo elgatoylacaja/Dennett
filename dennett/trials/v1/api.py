@@ -10,7 +10,8 @@ from . import trials
 def trials_list():
 
     if request.method == 'GET':
-        trials = Trial.get_all()
+        filters = request.args.to_dict()
+        trials = Trial.get_many(filters)
         return dumps(trials)
 
     if request.method == 'POST':
