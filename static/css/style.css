@@ -1,0 +1,14 @@
+.global {
+  margin: 3em;
+  text-align: center; }
+
+.logo {
+  display: inline-block;
+  height: 5em;
+  width: 5em;
+  background-image: url("https://drive.google.com/uc?export=view&id=0B8TVk7vjk-toTzVWM2xWSHp5dDg");
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat; }
+
+/*# sourceMappingURL=style.css.map */
