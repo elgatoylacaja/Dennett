@@ -43,16 +43,3 @@ def test_get_trial(session):
 def test_get_unexisting_trial(session):
     r = requests.get(URL_PREFIX + 'v1/trials/012345678901234567891234')
     assert r.status_code == 404
-
-
-def test_delete_trial(session):
-    trial = {
-        'user': '0001',
-        'op_type': '3x2'
-    }
-    data = requests.post(URL_PREFIX + 'v1/trials', json=trial).json()
-    r = requests.delete(URL_PREFIX + 'v1/trials/' + data['$oid'])
-    assert r.status_code == 204
-    r = requests.get(URL_PREFIX + 'v1/trials/' + data['$oid'])
-    assert r.status_code == 404
-

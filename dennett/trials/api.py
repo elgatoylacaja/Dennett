@@ -23,7 +23,7 @@ def trials_list():
 
 
 
-@trials.route('v1/trials/<id>', methods=['GET', 'DELETE'])
+@trials.route('v1/trials/<id>', methods=['GET'])
 def trials_detail(id):
 
     if request.method == 'GET':
@@ -31,9 +31,3 @@ def trials_detail(id):
         if not trial:
             raise NotFound
         return dumps(trial)
-
-    if request.method == 'DELETE':
-        result = Trial.delete(id)
-        if not result:
-            raise InternalServerError
-        return id, 204
