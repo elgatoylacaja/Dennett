@@ -19,10 +19,10 @@ def app():
 
 @pytest.fixture(scope='function')
 def session(app):
-    mongo.db.drop_collection('trials')
+    mongo.db.drop_collection('test_v1')
     remove_test_backup_files()
     yield 
-    mongo.db.drop_collection('trials')
+    mongo.db.drop_collection('test_v1')
     remove_test_backup_files()
 
 
