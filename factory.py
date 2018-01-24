@@ -1,7 +1,8 @@
 from flask import Flask
+
+from blueprints import register_blueprints
 from config import Config
 from database import mongo
-from blueprints import register_blueprints
 
 
 def create_app():

@@ -1,6 +1,6 @@
 import json
-from oauth2client import client, file, tools
 
+from oauth2client import client, file, tools
 
 STORAGE = '/tmp/storage'
 ENVIRONMENT_FORMAT = '/tmp/credentials.env'

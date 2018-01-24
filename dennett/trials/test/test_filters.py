@@ -1,6 +1,7 @@
+import pytest
 import requests
-from conftest import session, URL_PREFIX
 
+from conftest import URL_PREFIX
 
 TRIALS = [
     {'id': '1', 'user': '0001', 'op_type': '3x1'},
@@ -18,37 +19,36 @@ TRIALS = [
 ]
 
 
-def test_pagination(session):
-    for trial in TRIALS:
-        requests.post(URL_PREFIX + 'v1/trials', json=trial)
-    data = requests.get(URL_PREFIX + 'v1/trials?size=2&page=2').json()
-    assert len(data) == 2 
-    assert data[0]['id'] == '3'
-    assert data[1]['id'] == '4'
+@pytest.mark.usefixtures("session")
+class TestStats(object):
+    def test_pagination(self):
+        for trial in TRIALS:
+            requests.post(URL_PREFIX + 'v1/trials', json=trial)
+        data = requests.get(URL_PREFIX + 'v1/trials?size=2&page=2').json()
+        assert len(data) == 2
+        assert data[0]['id'] == '3'
+        assert data[1]['id'] == '4'
 
+    def test_cron_and_pagination(self):
+        for trial in TRIALS:
+            requests.post(URL_PREFIX + 'v1/trials', json=trial)
+        data = requests.get(URL_PREFIX + 'v1/trials?cron=new&size=2&page=2').json()
+        assert len(data) == 2
+        assert data[0]['id'] == '10'
+        assert data[1]['id'] == '9'
 
-def test_cron_and_pagination(session):
-    for trial in TRIALS:
-        requests.post(URL_PREFIX + 'v1/trials', json=trial)
-    data = requests.get(URL_PREFIX + 'v1/trials?cron=new&size=2&page=2').json()
-    assert len(data) == 2 
-    assert data[0]['id'] == '10'
-    assert data[1]['id'] == '9'
+    def test_cron_old(self):
+        for trial in TRIALS:
+            requests.post(URL_PREFIX + 'v1/trials', json=trial)
+        data = requests.get(URL_PREFIX + 'v1/trials').json()
+        assert data[0]['id'] == '1'
+        assert data[1]['id'] == '2'
+        assert data[2]['id'] == '3'
 
-
-def test_cron_old(session):
-    for trial in TRIALS:
-        requests.post(URL_PREFIX + 'v1/trials', json=trial)
-    data = requests.get(URL_PREFIX + 'v1/trials').json()
-    assert data[0]['id'] == '1'
-    assert data[1]['id'] == '2'
-    assert data[2]['id'] == '3'
-
-
-def test_cron_new(session):
-    for trial in TRIALS:
-        requests.post(URL_PREFIX + 'v1/trials', json=trial)
-    data = requests.get(URL_PREFIX + 'v1/trials?cron=new').json()
-    assert data[0]['id'] == '12'
-    assert data[1]['id'] == '11'
-    assert data[2]['id'] == '10'
+    def test_cron_new(self):
+        for trial in TRIALS:
+            requests.post(URL_PREFIX + 'v1/trials', json=trial)
+        data = requests.get(URL_PREFIX + 'v1/trials?cron=new').json()
+        assert data[0]['id'] == '12'
+        assert data[1]['id'] == '11'
+        assert data[2]['id'] == '10'

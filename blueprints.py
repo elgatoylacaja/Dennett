@@ -1,7 +1,6 @@
-from dennett.trials.api import trials
-from dennett.stats.api import stats
 from dennett.admin.views import admin
-
+from dennett.stats.api import stats
+from dennett.trials.api import trials
 
 
 def register_blueprints(app):

@@ -1,10 +1,6 @@
-import requests
-from conftest import session, URL_PREFIX
-
-
-
-TRIAL_LEGACY_FORMAT = {"test_subject": "Federico", "experiment_log": "{\"Confidence_Answer\":-1,\"Operator\":\"+\",\"Session_Correct\":1,\"Max_Time\":14000,\"Corr_in_a_Row\":1,\"Effort_Answer\":-1,\"Initial_Confidence\":-1,\"Correct\":1,\"Entered_Answer\":15,\"Response_Vector\":[1,5,20],\"Game_Type\":\"Arcade\",\"Response_Times\":[8536,9127,10217],\"Score\":1000,\"Total_Time\":10217,\"Operand_2\":7,\"Session_Trial\":1,\"Hint_Shown\":0,\"Operand_1\":8,\"Operation_Type\":\"1d+1d\",\"End_Date\":[2016,12,27,14,50,0],\"PersonalData\":{\"Name\":\"Jorge Berrueta\",\"Hand\":\"Diestro\",\"Birthdate\":[1987,1,23],\"Studies\":\"Terciario en curso\",\"AUID\":\"95e85ed03e1c34e7\",\"Email\":\"jorgeaber@gmail.com\",\"Gender\":\"Masculino\"},\"Hide_Question\":0,\"Initial_Effort\":-1,\"Correct_Result\":15,\"Erase\":0,\"Start_Date\":[2016,12,27,14,49,50],\"Time_Exceeded\":0,\"Level\":1,\"Hints_Available\":3}", "experiment_name": "MoravecData_v02"}
-
+TRIAL_LEGACY_FORMAT = {"test_subject": "Federico",
+                       "experiment_log": "{\"Confidence_Answer\":-1,\"Operator\":\"+\",\"Session_Correct\":1,\"Max_Time\":14000,\"Corr_in_a_Row\":1,\"Effort_Answer\":-1,\"Initial_Confidence\":-1,\"Correct\":1,\"Entered_Answer\":15,\"Response_Vector\":[1,5,20],\"Game_Type\":\"Arcade\",\"Response_Times\":[8536,9127,10217],\"Score\":1000,\"Total_Time\":10217,\"Operand_2\":7,\"Session_Trial\":1,\"Hint_Shown\":0,\"Operand_1\":8,\"Operation_Type\":\"1d+1d\",\"End_Date\":[2016,12,27,14,50,0],\"PersonalData\":{\"Name\":\"Jorge Berrueta\",\"Hand\":\"Diestro\",\"Birthdate\":[1987,1,23],\"Studies\":\"Terciario en curso\",\"AUID\":\"95e85ed03e1c34e7\",\"Email\":\"jorgeaber@gmail.com\",\"Gender\":\"Masculino\"},\"Hide_Question\":0,\"Initial_Effort\":-1,\"Correct_Result\":15,\"Erase\":0,\"Start_Date\":[2016,12,27,14,49,50],\"Time_Exceeded\":0,\"Level\":1,\"Hints_Available\":3}",
+                       "experiment_name": "MoravecData_v02"}
 
 TRIAL_NEW_FORMAT = {
     'user': {
@@ -50,8 +46,8 @@ TRIAL_NEW_FORMAT = {
         'effort': -1
     },
     'response': {
-        'vector': [1,5,20],
-        'times': [8536,9127,10217],
+        'vector': [1, 5, 20],
+        'times': [8536, 9127, 10217],
         'correctInARow': 1
     }
 }

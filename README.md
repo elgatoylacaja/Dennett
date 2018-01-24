@@ -28,6 +28,8 @@ Create a file containing these environment variables:
 DEVELOPMENT=True
 DEBUG=True
 TESTING=False
+DB_COLLECTION_V1=data-v1
+DB_COLLECTION_V2=data-v2
 MONGO_DBNAME=your-mongo-database-name
 MONGO_URI=your-mongo-uri
 SECRET_KEY=some-secret-key
@@ -65,12 +67,19 @@ python populate.py
 
 ### Run tests 
 
+WARNING: Running the test suite will destroy local database!
+
 With the development server already running, open a new terminal and type:
 
 ```bash
 pytest
 ```
 
+## Usage
+
+### POSTing new trials
+
+This server accepts any JSON input on URL `api/v2/trials`. No format/schema validation is done.
 
 ## How to contribute
 

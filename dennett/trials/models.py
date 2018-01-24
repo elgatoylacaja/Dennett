@@ -1,17 +1,17 @@
 import datetime
-from database import mongo
-from bson import BSON, decode_all
+
 from bson.objectid import ObjectId
-#from prettify import prettify
+
+from database import mongo
 
 
-class Trial():
+class TrialsCollection(object):
 
-    @classmethod
-    def get(self, collection_name, filters):
+    def __init__(self, collection_name):
+        self._db_collection = getattr(mongo.db, collection_name)
 
-        collection = getattr(mongo.db, collection_name)
-        trials = collection.find()
+    def fetch(self, filters):
+        trials = self._db_collection.find()
 
         if filters.get('cron', 'old') == 'new':
             trials.sort([('_id', -1)])
@@ -22,35 +22,22 @@ class Trial():
         size = int(filters.get('size', 1000))
         trials.skip(page * size).limit(size)
 
-        #if filters.get('format', 'legacy') == 'pretty':
+        # if filters.get('format', 'legacy') == 'pretty':
         #    trials = [prettify(trial) for trial in trials]
 
         return trials
 
-
-
-
-    @classmethod
-    def post(self, collection_name, trial):
-        collection = getattr(mongo.db, collection_name)
+    def add(self, trial):
         trial['postDate'] = datetime.datetime.utcnow()
-        result = collection.insert_one(trial)
-        inserted_trial = Trial.get_single(collection_name, result.inserted_id)
+        result = self._db_collection.insert_one(trial)
+        inserted_trial = self.get_single(result.inserted_id)
         return result.inserted_id if inserted_trial else None
 
+    def get_single(self, trial_id):
+        return self._db_collection.find_one({'_id': ObjectId(trial_id)})
 
-
-    @classmethod
-    def get_single(self, collection_name, trial_id):
-        collection = getattr(mongo.db, collection_name)
-        return collection.find_one({'_id': ObjectId(trial_id)})
-
-
-
-    @classmethod
-    def stats(self, collection_name):
-        collection = getattr(mongo.db, collection_name)
-        trials_count = collection.count()
-        return { 
+    def stats(self):
+        trials_count = self._db_collection.count()
+        return {
             'trials': trials_count
         }

@@ -1,17 +1,22 @@
 import ast
 import datetime
 
+
 def gender_pretty(gender):
     return gender
+
 
 def hand_pretty(hand):
     return hand
 
+
 def studies_pretty(studies):
     return studies
 
+
 def birthdate_pretty(birthdate):
     return datetime.date(*birthdate).isoformat() if birthdate else ''
+
 
 def time_pretty(time):
     return datetime.datetime(*time).isoformat() if time else ''
@@ -67,5 +72,5 @@ def prettify(legacy_trial):
             'times': trial['Response_Times'],
             'correctInARow': trial['Corr_in_a_Row']
         }
-        
+
     }
