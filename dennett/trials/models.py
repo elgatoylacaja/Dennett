@@ -33,6 +33,13 @@ class TrialsCollection(object):
         inserted_trial = self.get_single(result.inserted_id)
         return result.inserted_id if inserted_trial else None
 
+    def add_batch(self, trials):
+        saved_trials_ids = []
+        for trial in trials:
+            inserted_id = self.add(trial)
+            saved_trials_ids.append(inserted_id)
+        return saved_trials_ids
+
     def get_single(self, trial_id):
         return self._db_collection.find_one({'_id': ObjectId(trial_id)})
 
