@@ -81,6 +81,39 @@ pytest
 
 This server accepts any JSON input on URL `api/v2/trials`. No format/schema validation is done.
 
+## Deployment
+
+Deployed using Heroku
+
+```bash
+$ heroku login
+$ heroku git:remote -a dennett-stage
+$ git remote rename heroku heroku-staging
+$ heroku git:remote -a dennett
+$ git remote rename heroku heroku-production
+```
+
+Check remotes with are OK with:
+```bash
+$ git remote -V
+```
+
+Deploy with
+```bash
+$ git push heroku-staging master
+```
+
+Or with for production
+```bash
+$ git push heroku-production master
+```
+
+App configuration is done through environment vars. 
+
+Please checkout [Heroku staging settings](https://dashboard.heroku.com/apps/dennett-stage/settings) 
+(or [Heroku production settings](https://dashboard.heroku.com/apps/dennett/settings))
+to alter this values.
+
 ## How to contribute
 
 Contributions are more than welcome. Here's a list of fundamenetal knowledge you'll need to get started.
