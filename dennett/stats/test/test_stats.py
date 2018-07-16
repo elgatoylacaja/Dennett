@@ -9,7 +9,7 @@ class TestStats(object):
 
     def test_get_stats(self):
         stats = requests.get(URL_PREFIX + 'v1/stats').json()
-        assert stats['trials'] == 0
+        assert stats['items'] == 0
 
         trials = [
             {'experiment_log': {'PersonalData': {'AUID': '0001', 'Name': 'A'}}, 'op_type': '3x1'},
@@ -21,4 +21,4 @@ class TestStats(object):
         for trial in trials:
             requests.post(URL_PREFIX + 'v1/trials', json=trial)
         stats = requests.get(URL_PREFIX + 'v1/stats').json()
-        assert stats['trials'] == 5
+        assert stats['items'] == 5
