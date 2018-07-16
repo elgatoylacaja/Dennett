@@ -1,16 +1,15 @@
-import os
-
 from bson.json_util import dumps
 from flask import request
 from werkzeug.exceptions import InternalServerError
 
+from dennett.api import simple_endpoint
 from dennett.trials.models import TrialsCollection
 from . import trials
 
 
 @trials.route('v1/trials', methods=['GET', 'POST'])
 def trials_list_v1():
-    collection = TrialsCollection(str(os.environ['DB_COLLECTION_V1']))
+    collection = TrialsCollection(TrialsCollection.V1_COLLECTION_NAME)
 
     if request.method == 'GET':
         filters = request.args.to_dict()
@@ -27,19 +26,5 @@ def trials_list_v1():
 
 @trials.route('v2/trials', methods=['GET', 'POST'])
 def trials_list_v2():
-    collection = TrialsCollection(str(os.environ['DB_COLLECTION_V2']))
-
-    if request.method == 'GET':
-        filters = request.args.to_dict()
-        the_trials = collection.fetch(filters)
-        return dumps(the_trials)
-
-    if request.method == 'POST':
-        data = request.get_json()
-        if isinstance(data, list):
-            saved_trials_ids = collection.add_batch(data)
-        else:
-            saved_trials_ids = [collection.add(data)]
-        if len(saved_trials_ids) == 0:
-            raise InternalServerError
-        return dumps(saved_trials_ids), 201
+    collection = TrialsCollection(TrialsCollection.V2_COLLECTION_NAME)
+    return simple_endpoint(collection)

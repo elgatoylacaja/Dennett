@@ -67,11 +67,14 @@ python populate.py
 
 ### Run tests 
 
-WARNING: Running the test suite will destroy local database!
+Create an alternative configuration file for testing.
 
 With the development server already running, open a new terminal and type:
 
 ```bash
+workon dennett
+export $(cat ~/dennett/config/testing) # replace path with location of your configuration file
+python app.py
 pytest
 ```
 
