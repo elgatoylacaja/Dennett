@@ -10,7 +10,7 @@ Jinja2==2.9.3
 Mako==1.0.6
 MarkupSafe==0.23
 oauth2client==4.1.2
-psycopg2==2.6.2
+psycopg2==2.7.6
 py==1.4.32
 pyasn1==0.1.9
 pyasn1-modules==0.0.8
@@ -18,7 +18,7 @@ pymongo==3.4.0
 pytest==3.0.5
 pytest-flask==0.10.0
 python-editor==1.0.3
-requests==2.12.4
+requests==2.21.0
 rsa==3.4.2
 six==1.10.0
 uritemplate==3.0.0

@@ -4,3 +4,5 @@
 .env
 config
 .sass-cache
+.idea
+venv

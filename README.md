@@ -27,9 +27,8 @@ Create a file containing these environment variables:
 ```bash
 DEVELOPMENT=True
 DEBUG=True
-TESTING=False
 DB_COLLECTION_V1=data-v1
-DB_COLLECTION_V2=data-v2
+ENVIRONMENT=development
 MONGO_DBNAME=your-mongo-database-name
 MONGO_URI=your-mongo-uri
 SECRET_KEY=some-secret-key
@@ -43,8 +42,8 @@ MONGO_URI=mongodb://localhost:27017/dennett
 SECRET_KEY=642342617b264d49b5bb4facc4b3124fa8ac8f5781ad2219
 ```
 
-You can create that file anywhere in your filesystem. A suggested location could be ~/dennett/config/develop
-In any case, make sure NOT to track this file with git. 
+You can create that file anywhere in your filesystem. A suggested location could be `config/develop`
+In any case, make sure NOT to track this file with git.
 
 
 ### Run the development server
@@ -53,16 +52,6 @@ In any case, make sure NOT to track this file with git.
 workon dennett
 export $(cat ~/dennett/config/develop) # replace path with location of your configuration file
 python app.py # run development server
-```
-
-### Populate database 
-
-With the development server already running, open a new terminal and type:
-
-```bash
-workon dennett
-export $(cat ~/dennett/config/develop) # replace path with location of your configuration file
-python populate.py 
 ```
 
 ### Run tests 
@@ -75,7 +64,7 @@ With the development server already running, open a new terminal and type:
 workon dennett
 export $(cat ~/dennett/config/testing) # replace path with location of your configuration file
 python app.py
-pytest
+pytest dennett
 ```
 
 ## Usage
@@ -98,7 +87,7 @@ $ git remote rename heroku heroku-production
 
 Check remotes with are OK with:
 ```bash
-$ git remote -V
+$ git remote -v
 ```
 
 Deploy with
